@@ -4,7 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { Modal, ModalHeader, ModalBody } from "baseui/modal";
 import { MetricCard, StatusBadge, SectionHeader, InsightCard, CollapsibleInsights, pctColor } from "../components/SharedUI";
 import { repCWnFT, teamCWnFT, RepName } from "../data/dashboardData";
-import { getRepCWAccounts } from "../data/mockAccountData";
 
 export default function CWnFTPage({ selectedRep }: { selectedRep: RepName | 'all' }) {
   const [css] = useStyletron();
@@ -34,12 +33,16 @@ export default function CWnFTPage({ selectedRep }: { selectedRep: RepName | 'all
   if (teamCWnFT.pctNFT > 10) insights.push(`Team-wide ${teamCWnFT.pctNFT}% CWnFT rate means roughly 1 in 9 closed deals isn't going live. This is a process issue, not a sales issue.`);
 
   // Account lists for modals
-  const allAccounts = repCWnFT.filter(r => r.totalCW > 0).flatMap(r => getRepCWAccounts(r.name as RepName).map(a => ({ ...a, rep: r.name })));
+  const allAccounts = repCwnFT
+  .filter(r => r.totalCW > 0)
+  .flatMap(r => (r.accounts || []).map(a => ({ ...a, rep: r.name })));
   const listAccounts = listModal
     ? (listModal.filter === 'cwnft' ? allAccounts.filter(a => a.status === 'CWnFT') : allAccounts)
     : [];
 
-  const repDrillAccounts = repDrill ? getRepCWAccounts(repDrill).filter(a => a.status === 'CWnFT') : [];
+  const repDrillAccounts = repDrill
+  ? (repCwnFT.find(r => r.name === repDrill)?.accounts || []).filter(a => a.status === 'CwnFT')
+  : [];
 
   return (
     <div>
