@@ -4,7 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, RadarC
 import { Modal, ModalHeader, ModalBody } from "baseui/modal";
 import { MetricCard, StatusBadge, SectionHeader, InsightCard, CollapsibleInsights, pctColor } from "../components/SharedUI";
 import { repCWnFT, repPipeline, repAttainment, repCoaching, RepName, REPS } from "../data/dashboardData";
-import { getRepCWAccounts } from "../data/mockAccountData";
 
 type DrilldownType = 'attainment' | 'stale' | 'cwnft' | 'creation' | 'coaching' | null;
 
